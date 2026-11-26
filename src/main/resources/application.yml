@@ -17,6 +17,11 @@ spring:
           uri: http://auth-server:9000
           predicates:
             - Path=/api/auth/**
+        # 비밀번호 변경(로그인 후)·재설정(로그인 전) — ✅ 재설정은 시큐리티 서버에 작성 (포털 앱은 로그인한 사용자만 들어갈 수 있어서)
+        - id: security-password
+          uri: http://security-server:9100
+          predicates:
+            - Path=/api/security/password,/api/security/password-reset/**
         - id: portal-api                     # 포털 공통·관리자·라벨 (공통·포털팀)
           uri: http://portal-api:8082
           predicates:

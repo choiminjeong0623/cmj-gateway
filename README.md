@@ -6,6 +6,8 @@
 ## 역할
 Spring Cloud Gateway(WebFlux). JWT 서명·만료만 확인하고 각 서비스로 라우팅. 역할·권한 검사는 하지 않음(각 업무 서비스·공통 라이브러리가 담당).
 
+- 비밀번호 변경·재설정: `/api/security/password`(JWT 필요), `/api/security/password-reset/**`(로그인 전, permitAll) → 시큐리티 서버
+
 ## 빌드
 ```bash
 ./gradlew build
