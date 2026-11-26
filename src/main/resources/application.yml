@@ -11,15 +11,9 @@ spring:
   cloud:
     gateway:
       routes:
-        # 로그인·토큰 재발급: 포털(브라우저)은 client secret을 모르므로 gateway가 클라이언트 인증 헤더를 붙여서 넘긴다
-        # ⚠️ 실제 프로젝트가 이 방식이었는지는 미확인
-        - id: token
-          uri: http://auth-server:9000
-          predicates:
-            - Path=/oauth2/token
-          filters:
-            - SetRequestHeader=Authorization, Basic ${PORTAL_CLIENT_BASIC}
-        - id: auth-api                       # 로그아웃
+        # 로그인·재발급·로그아웃: 인증 서버에 만든 로그인 API (🟩 2026-11-26 — /oauth2/token 이 아니었음)
+        # 공개키(/oauth2/jwks)는 gateway가 내부 주소(jwk-set-uri)로 직접 받으므로 바깥에 열지 않음
+        - id: auth-api
           uri: http://auth-server:9000
           predicates:
             - Path=/api/auth/**

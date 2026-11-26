@@ -24,7 +24,7 @@ public class GatewaySecurityConfig {
         http
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(ex -> ex
-                .pathMatchers(HttpMethod.POST, "/oauth2/token").permitAll() // 로그인·재발급: 아직 토큰이 없거나 만료된 상태
+                .pathMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/refresh").permitAll() // 로그인·재발급: 아직 토큰이 없거나 만료된 상태 (🟩 우리가 만든 로그인 API)
                 .pathMatchers("/api/public/**").permitAll()                 // 라벨·테마: 로그인 화면에서도 필요
                 .anyExchange().authenticated())                             // 그 외: 유효한 JWT만 있으면 통과
             .oauth2ResourceServer(rs -> rs.jwt(jwt -> {}));                 // 공개키(jwk-set-uri)로 서명·만료 검증
