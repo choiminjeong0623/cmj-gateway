@@ -20,7 +20,7 @@ Spring Cloud Gateway(WebFlux). JWT 서명·만료만 확인하고 각 서비스�
 | cmj-gateway | 게이트웨이 |
 | cmj-auth-server | 토큰 발급 (OAuth2) |
 | cmj-security-server | 로그인 규칙 |
-| cmj-portal-api | 포털·관리자 API |
-| cmj-hr-sync-batch | 인사 동기화 배치 |
+| cmj-portal-app | 포털·관리자 API |
+| cmj-spring-batch | 인사 동기화 배치 |
 
 ⚠️ 공통 라이브러리의 실제 배포 방식(사내 패키지 저장소 등)은 확인되지 않아, 예시는 mavenLocal 을 씁니다.
