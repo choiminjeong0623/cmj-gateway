@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # auth-server가 공개하는 공개키 목록. gateway는 이걸로 서명·만료만 확인한다.
+          jwk-set-uri: http://auth-server:9000/oauth2/jwks
+  cloud:
+    gateway:
+      routes:
+        # 로그인·토큰 재발급: 포털(브라우저)은 client secret을 모르므로 gateway가 클라이언트 인증 헤더를 붙여서 넘긴다
+        # ⚠️ 실제 프로젝트가 이 방식이었는지는 미확인
+        - id: token
+          uri: http://auth-server:9000
+          predicates:
+            - Path=/oauth2/token
+          filters:
+            - SetRequestHeader=Authorization, Basic ${PORTAL_CLIENT_BASIC}
+        - id: auth-api                       # 로그아웃
+          uri: http://auth-server:9000
+          predicates:
+            - Path=/api/auth/**
+        - id: portal-api                     # 포털 공통·관리자·라벨 (공통·포털팀)
+          uri: http://portal-api:8082
+          predicates:
+            - Path=/api/portal/**,/api/admin/**,/api/public/**
+        - id: tax-return                     # 업무 서비스 예시 (각 업무팀) — common-security만 추가하면 같은 검사가 붙음
+          uri: http://tax-return-service:8081
+          predicates:
+            - Path=/api/tax-return/**
