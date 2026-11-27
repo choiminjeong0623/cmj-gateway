@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  data:
+    redis:
+      host: redis          # 호출 횟수 제한 카운터용 (⚠️ 예시 주소)
+      port: 6379
   security:
     oauth2:
       resourceserver:
@@ -30,3 +34,11 @@ spring:
           uri: http://tax-return-service:8081
           predicates:
             - Path=/api/tax-return/**
+
+# ✅ 매크로 장애 후 gateway에서 호출 횟수 제한 (구현 본인, 값은 인프라팀·업무팀이 정함)
+# ⚠️ 1분 15회는 "정도"로 기억하는 값, 경로는 예시
+cmj:
+  rate-limit:
+    max-per-minute: 15
+    paths:
+      - /api/tax-return/search/**

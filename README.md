@@ -6,6 +6,7 @@
 ## 역할
 Spring Cloud Gateway(WebFlux). JWT 서명·만료만 확인하고 각 서비스로 라우팅. 역할·권한 검사는 하지 않음(각 업무 서비스·공통 라이브러리가 담당).
 
+- ✅ 호출 횟수 제한 — 매크로 장애 후 gateway에서 제한 (구현 본인, 제한값은 인프라팀·업무팀). `ratelimit/RateLimitFilter`: 정한 경로에 한해 사용자(JWT sub, 없으면 IP)별 1분 N회 초과 시 429. ⚠️ Redis 고정 창 카운터 방식·1분 15회·경로는 예시. User-Agent 차단은 gateway가 아니라 cmj-common-security 필터에 있음
 - 비밀번호 변경·재설정: `/api/security/password`(JWT 필요), `/api/security/password-reset/**`(로그인 전, permitAll) → 시큐리티 서버
 
 ## 빌드
@@ -33,4 +34,4 @@ Spring Cloud Gateway(WebFlux). JWT 서명·만료만 확인하고 각 서비스�
 | cmj-frontend-common | 공통 화면 코드 |
 | cmj-frontend-service | 업무 화면 코드 |
 
-⚠️ 공통 라이브러리의 실제 배포 방식(사내 패키지 저장소 등)은 확인되지 않아, 예시는 mavenLocal 을 씁니다.
+✅ 공통 라이브러리는 실제로 GitLab 패키지 저장소에 올려 썼음 (2026-11-27 확인). 예시는 로컬 실행용 mavenLocal.
